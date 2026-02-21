@@ -1,0 +1,8 @@
+.DS_Store
+*.swp
+*~
+
+# AI assistant config
+CLAUDE.md
+.claude/
+.github/copilot-instructions.md
