@@ -13,7 +13,8 @@ brew install hew
 
 - `hew` — the Hew compiler
 - `adze` — the Hew build tool
-- `hew-codegen` / `hew-frontend` — compiler components
+- `hew-codegen` — MLIR code generator
+- `hew-lsp` — Language Server Protocol server
 - `libhew_runtime.a` — the Hew actor runtime
 - Shell completions (bash, zsh, fish) when available
 
