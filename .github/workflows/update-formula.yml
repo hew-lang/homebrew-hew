@@ -1,0 +1,72 @@
+# Updates the Homebrew formula when a new Hew release is published.
+#
+# Triggered by workflow_dispatch from hew's release workflow, or manually.
+# Downloads release tarballs, computes SHA256 checksums, and updates Formula/hew.rb.
+
+name: Update Formula
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Hew version to update to (without v prefix, e.g. 0.1.4)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download release tarballs and compute checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          for target in darwin-x86_64 darwin-aarch64 linux-x86_64 linux-aarch64; do
+            echo "Downloading hew-v${VERSION}-${target}.tar.gz..."
+            gh release download "v${VERSION}" \
+              --repo hew-lang/hew \
+              --pattern "hew-v${VERSION}-${target}.tar.gz" \
+              || echo "::warning::${target} tarball not available"
+          done
+
+          # Compute checksums (fall back to placeholder if tarball missing)
+          for target in darwin-x86_64 darwin-aarch64 linux-x86_64 linux-aarch64; do
+            varname="SHA_$(echo "${target}" | tr '[:lower:]-' '[:upper:]_')"
+            file="hew-v${VERSION}-${target}.tar.gz"
+            if [ -f "${file}" ]; then
+              hash=$(sha256sum "${file}" | awk '{print $1}')
+            else
+              hash="__SHA256_$(echo "${target}" | tr '[:lower:]-' '[:upper:]_')__"
+            fi
+            echo "${varname}=${hash}" >> "$GITHUB_ENV"
+          done
+
+      - name: Update formula
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          sed -i "s/version \".*\"/version \"${VERSION}\"/" Formula/hew.rb
+          sed -i "/darwin-x86_64/,/sha256/{s/sha256 \".*\"/sha256 \"${SHA_DARWIN_X86_64}\"/}" Formula/hew.rb
+          sed -i "/darwin-aarch64/,/sha256/{s/sha256 \".*\"/sha256 \"${SHA_DARWIN_AARCH64}\"/}" Formula/hew.rb
+          sed -i "/linux-x86_64/,/sha256/{s/sha256 \".*\"/sha256 \"${SHA_LINUX_X86_64}\"/}" Formula/hew.rb
+          sed -i "/linux-aarch64/,/sha256/{s/sha256 \".*\"/sha256 \"${SHA_LINUX_AARCH64}\"/}" Formula/hew.rb
+
+          echo "Updated Formula/hew.rb:"
+          head -30 Formula/hew.rb
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/hew.rb
+          git diff --cached --quiet || git commit -m "Update hew to v${{ inputs.version }}"
+          git push
