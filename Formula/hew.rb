@@ -10,20 +10,20 @@ class Hew < Formula
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-x86_64.tar.gz"
-      sha256 "a8526dd03faabd57ee2ebff7c0a7dc96893dd84ea3673e3906c13119f9ea7df0"
+      sha256 "9ab339f8b1b5c2b805c935bc33bbd16e31a34e94a83862e4e4ad825a36d2d1b7"
     else
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-aarch64.tar.gz"
-      sha256 "52e4c3b7de68220fa3aa336f23319f1479955b0b52f49e9abdf7d3ea04238d77"
+      sha256 "aee64e5f7cfe27f8f1bf2b0bdab65142fbea0cd7ffda37b08f10f62713129a20"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-linux-x86_64.tar.gz"
-      sha256 "e87cd3b216a2c9957bf5bd07bec9534ad7ef99dbc570926b40ef302e6cfb36fc"
+      sha256 "db4283f75f722dbab8bc9750cb332fa20ae3bb4e4e9b4afc8ce994489d647b8c"
     else
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-linux-aarch64.tar.gz"
-      sha256 "311aa536eb0b065940ad98c711d29fdc0769538be183efb622c5917420d37441"
+      sha256 "2eb235c16b5eacdd0ebd6f52947c22343eaea013c4a0c16f0a0a63c94b800352"
     end
   end
 
