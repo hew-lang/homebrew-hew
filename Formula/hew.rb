@@ -4,9 +4,6 @@ class Hew < Formula
   version "0.2.0"
   license any_of: ["MIT", "Apache-2.0"]
 
-  # NOTE: Replace __SHA256_*__ with actual SHA256 hashes at release time.
-  # Run: sha256sum hew-v#{version}-{darwin,linux}-{x86_64,aarch64}.tar.gz
-
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-x86_64.tar.gz"
