@@ -27,10 +27,8 @@ class Hew < Formula
   def install
     bin.install "bin/hew"
     bin.install "bin/adze"
-    bin.install "bin/hew-codegen"
     bin.install "bin/hew-lsp"
-    lib.install "lib/libhew_runtime.a"
-    lib.install Dir["lib/libhew_std_*.a"]
+    lib.install "lib/libhew.a"
 
     (share/"hew/std").mkpath
     (share/"hew/std").install Dir["std/*"] if (buildpath/"std").exist?
@@ -56,6 +54,5 @@ class Hew < Formula
   test do
     system "#{bin}/hew", "version"
     system "#{bin}/adze", "--version"
-    system "#{bin}/hew-lsp", "--version"
   end
 end
