@@ -63,6 +63,13 @@ jobs:
           echo "Updated Formula/hew.rb:"
           head -30 Formula/hew.rb
 
+      - name: Verify all placeholders substituted
+        run: |
+          if grep -E '__SHA256_[A-Z0-9_]+__' Formula/hew.rb; then
+            echo "::error ::unsubstituted SHA256 placeholder found in Formula/hew.rb — refusing to commit broken formula"
+            exit 1
+          fi
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
