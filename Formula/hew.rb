@@ -1,26 +1,26 @@
 class Hew < Formula
   desc "Statically-typed, actor-oriented programming language"
   homepage "https://hew.sh"
-  version "0.5.5"
+  version "0.5.6"
   license any_of: ["MIT", "Apache-2.0"]
 
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-x86_64.tar.gz"
-      sha256 "88e8c16753892a8582eddbcd81ad30f9085e059ebe2da916962e2ae0536acb36"
+      sha256 "48d1c3b30a9b18fab5e66cebd752fd4aa72efef00ee00ef0088d41e1d8f83095"
     else
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-aarch64.tar.gz"
-      sha256 "06694f06527ed062c89256abcb0af833df0bc842665cc1ee306514c7f9c6b0e0"
+      sha256 "e9bad3641097ca744d44cee09a11ca5cd2b7fca4550d4335ef1559d02d64ba62"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-linux-x86_64.tar.gz"
-      sha256 "726317c5add83e429a107c7b7bd17e51392d1172218d567377701f026bb9eb96"
+      sha256 "05d5e5c52083d7c35f829213204ccc5037591808d91753a9d623e8380addc17c"
     else
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-linux-aarch64.tar.gz"
-      sha256 "e799ac1848858a841e333d7b1b063dc47709bddb19a461e041e4553e41a94d87"
+      sha256 "79d359f4b64d22e134fbc62eb87251b32d49f11696c4870638e34681cb7f1e08"
     end
   end
 
