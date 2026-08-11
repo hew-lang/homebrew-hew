@@ -54,12 +54,18 @@ class Hew < Formula
     system "#{bin}/hew-observe", "--version"
 
     (testpath/"hello.hew").write <<~HEW
+      import std::math;
+
       fn main() {
-          println("hello from homebrew")
+          println("hello from homebrew");
+          println(math.clamp(10, 0, 5));
       }
     HEW
     ENV["HEW_STD"] = (share/"hew/std").to_s
+    output = shell_output("#{bin}/hew run #{testpath}/hello.hew")
     assert_match "hello from homebrew",
-      shell_output("#{bin}/hew run #{testpath}/hello.hew")
+      output
+    assert_match "5",
+      output
   end
 end
