@@ -26,19 +26,16 @@ class Hew < Formula
 
   def install
     bin.install "bin/hew"
-    bin.install "bin/adze"
     bin.install "bin/hew-lsp"
+    bin.install "bin/hew-observe"
     lib.install "lib/libhew.a"
 
     (share/"hew/std").mkpath
-    (share/"hew/std").install Dir["std/*"] if (buildpath/"std").exist?
+    (share/"hew/std").install Dir["std/*"]
 
-    bash_completion.install "completions/hew.bash" => "hew" if (buildpath/"completions/hew.bash").exist?
-    zsh_completion.install "completions/hew.zsh" => "_hew" if (buildpath/"completions/hew.zsh").exist?
-    fish_completion.install "completions/hew.fish" if (buildpath/"completions/hew.fish").exist?
-    bash_completion.install "completions/adze.bash" => "adze" if (buildpath/"completions/adze.bash").exist?
-    zsh_completion.install "completions/adze.zsh" => "_adze" if (buildpath/"completions/adze.zsh").exist?
-    fish_completion.install "completions/adze.fish" if (buildpath/"completions/adze.fish").exist?
+    bash_completion.install "completions/hew.bash" => "hew"
+    zsh_completion.install "completions/hew.zsh" => "_hew"
+    fish_completion.install "completions/hew.fish"
   end
 
   def caveats
@@ -53,6 +50,16 @@ class Hew < Formula
 
   test do
     system "#{bin}/hew", "version"
-    system "#{bin}/adze", "--version"
+    system "#{bin}/hew-lsp", "--version"
+    system "#{bin}/hew-observe", "--version"
+
+    (testpath/"hello.hew").write <<~HEW
+      fn main() {
+          println("hello from homebrew")
+      }
+    HEW
+    ENV["HEW_STD"] = (share/"hew/std").to_s
+    assert_match "hello from homebrew",
+      shell_output("#{bin}/hew run #{testpath}/hello.hew")
   end
 end
