@@ -18,8 +18,6 @@ permissions:
 
 jobs:
   update:
-    # RC tags are intentionally excluded: the tap only tracks final releases.
-    if: ${{ !contains(inputs.version, '-rc') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
