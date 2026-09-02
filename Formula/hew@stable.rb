@@ -1,32 +1,32 @@
-# Tracks the newest release, release candidates included, until v0.6.0 ships
-# as a final release — see `brew install hew-lang/tap/hew@stable` for the
-# newest final release only. Once v0.6.0 ships as a final release this
-# formula converges with hew@stable again, until the next pre-release window.
-class Hew < Formula
-  desc "Statically-typed, actor-oriented programming language"
+# Tracks the newest final (non-rc) release. Until v0.6.0 ships as a final
+# release, plain `hew` tracks the newest release candidate instead — see
+# Formula/hew.rb. Once v0.6.0 ships as a final release the two formulae
+# point at the same version again, until the next pre-release window.
+class HewATStable < Formula
+  desc "Statically-typed, actor-oriented programming language (stable channel)"
   homepage "https://hew.sh"
-  version "0.6.0-rc2"
+  version "0.5.6"
   license any_of: ["MIT", "Apache-2.0"]
 
-  conflicts_with "hew@stable", because: "both install a `hew` binary"
+  conflicts_with "hew", because: "both install a `hew` binary"
 
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-x86_64.tar.gz"
-      sha256 "cf551d8723c001151aaa0030950f2dd9950e0269211ea8c0ebb98f476db7cfc7"
+      sha256 "48d1c3b30a9b18fab5e66cebd752fd4aa72efef00ee00ef0088d41e1d8f83095"
     else
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-aarch64.tar.gz"
-      sha256 "d35a5a57bd88a7ee9f40ef9d97ffe171b1a1d6a0583051cb5594d346a4e707bb"
+      sha256 "e9bad3641097ca744d44cee09a11ca5cd2b7fca4550d4335ef1559d02d64ba62"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-linux-x86_64.tar.gz"
-      sha256 "7f97456702205383b82dab3e8c31d09e53c61d22a57d61823c30ae64f79e2497"
+      sha256 "05d5e5c52083d7c35f829213204ccc5037591808d91753a9d623e8380addc17c"
     else
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-linux-aarch64.tar.gz"
-      sha256 "320803193f8e93de05d94915f2046534a97ca76936171030af6332ca721c0c42"
+      sha256 "79d359f4b64d22e134fbc62eb87251b32d49f11696c4870638e34681cb7f1e08"
     end
   end
 
@@ -60,7 +60,7 @@ class Hew < Formula
     system "#{bin}/hew-observe", "--version"
 
     (testpath/"hello.hew").write <<~HEW
-      import std.math;
+      import std::math;
 
       fn main() {
           println("hello from homebrew");
