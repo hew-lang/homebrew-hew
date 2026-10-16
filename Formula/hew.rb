@@ -34,7 +34,9 @@ class Hew < Formula
     bin.install "bin/hew"
     bin.install "bin/hew-lsp"
     bin.install "bin/hew-observe"
-    lib.install "lib/libhew.a"
+    lib.install Dir["lib/*"]
+    include.install Dir["include/*"] if File.directory?("include")
+    (share/"hew").install Dir["share/hew/*"] if File.directory?("share/hew")
 
     (share/"hew/std").mkpath
     (share/"hew/std").install Dir["std/*"]
