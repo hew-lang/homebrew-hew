@@ -1,7 +1,5 @@
-# Tracks the newest release, release candidates included, until v0.6.0 ships
-# as a final release — see `brew install hew-lang/tap/hew@stable` for the
-# newest final release only. Once v0.6.0 ships as a final release this
-# formula converges with hew@stable again, until the next pre-release window.
+# Tracks the newest release, including release candidates.
+# Use hew@stable for the newest final release only.
 class Hew < Formula
   desc "Statically-typed, actor-oriented programming language"
   homepage "https://hew.sh"
@@ -11,13 +9,9 @@ class Hew < Formula
   conflicts_with "hew@stable", because: "both install a `hew` binary"
 
   on_macos do
-    if Hardware::CPU.intel?
-      url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-x86_64.tar.gz"
-      sha256 "463c9e049d45d667fbfed05aac7f9787bf3883974dcbadbebe6f0d4d52721101"
-    else
-      url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-aarch64.tar.gz"
-      sha256 "cd56740b5c398540a6ba86ba417c72e8c7668fbbdc503fda88a0e9cf5433d675"
-    end
+    depends_on arch: :arm64
+    url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-aarch64.tar.gz"
+    sha256 "cd56740b5c398540a6ba86ba417c72e8c7668fbbdc503fda88a0e9cf5433d675"
   end
 
   on_linux do
@@ -32,8 +26,6 @@ class Hew < Formula
 
   def install
     bin.install "bin/hew"
-    bin.install "bin/hew-lsp"
-    bin.install "bin/hew-observe"
     lib.install Dir["lib/*"]
     include.install Dir["include/*"] if File.directory?("include")
     (share/"hew").install Dir["share/hew/*"] if File.directory?("share/hew")
@@ -58,8 +50,8 @@ class Hew < Formula
 
   test do
     system "#{bin}/hew", "version"
-    system "#{bin}/hew-lsp", "--version"
-    system "#{bin}/hew-observe", "--version"
+    system "#{bin}/hew", "lsp", "--version"
+    system "#{bin}/hew", "observe", "--version"
 
     (testpath/"hello.hew").write <<~HEW
       import std.math;

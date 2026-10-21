@@ -1,7 +1,4 @@
-# Tracks the newest final (non-rc) release. Until v0.6.0 ships as a final
-# release, plain `hew` tracks the newest release candidate instead — see
-# Formula/hew.rb. Once v0.6.0 ships as a final release the two formulae
-# point at the same version again, until the next pre-release window.
+# Tracks the newest final release; use hew for release candidates too.
 class HewATStable < Formula
   desc "Statically-typed, actor-oriented programming language (stable channel)"
   homepage "https://hew.sh"
@@ -11,13 +8,9 @@ class HewATStable < Formula
   conflicts_with "hew", because: "both install a `hew` binary"
 
   on_macos do
-    if Hardware::CPU.intel?
-      url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-x86_64.tar.gz"
-      sha256 "463c9e049d45d667fbfed05aac7f9787bf3883974dcbadbebe6f0d4d52721101"
-    else
-      url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-aarch64.tar.gz"
-      sha256 "cd56740b5c398540a6ba86ba417c72e8c7668fbbdc503fda88a0e9cf5433d675"
-    end
+    depends_on arch: :arm64
+    url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-aarch64.tar.gz"
+    sha256 "cd56740b5c398540a6ba86ba417c72e8c7668fbbdc503fda88a0e9cf5433d675"
   end
 
   on_linux do
@@ -32,8 +25,6 @@ class HewATStable < Formula
 
   def install
     bin.install "bin/hew"
-    bin.install "bin/hew-lsp"
-    bin.install "bin/hew-observe"
     lib.install Dir["lib/*"]
     include.install Dir["include/*"] if File.directory?("include")
     (share/"hew").install Dir["share/hew/*"] if File.directory?("share/hew")
@@ -58,11 +49,11 @@ class HewATStable < Formula
 
   test do
     system "#{bin}/hew", "version"
-    system "#{bin}/hew-lsp", "--version"
-    system "#{bin}/hew-observe", "--version"
+    system "#{bin}/hew", "lsp", "--version"
+    system "#{bin}/hew", "observe", "--version"
 
     (testpath/"hello.hew").write <<~HEW
-      import std::math;
+      import std.math;
 
       fn main() {
           println("hello from homebrew");

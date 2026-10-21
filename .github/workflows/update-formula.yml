@@ -32,7 +32,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ inputs.version }}
         run: |
-          for target in darwin-x86_64 darwin-aarch64 linux-x86_64 linux-aarch64; do
+          for target in darwin-aarch64 linux-x86_64 linux-aarch64; do
             echo "Downloading hew-v${VERSION}-${target}.tar.gz..."
             gh release download "v${VERSION}" \
               --repo hew-lang/hew \
@@ -41,7 +41,7 @@ jobs:
           done
 
           # Compute checksums (fall back to placeholder if tarball missing)
-          for target in darwin-x86_64 darwin-aarch64 linux-x86_64 linux-aarch64; do
+          for target in darwin-aarch64 linux-x86_64 linux-aarch64; do
             varname="SHA_$(echo "${target}" | tr '[:lower:]-' '[:upper:]_')"
             file="hew-v${VERSION}-${target}.tar.gz"
             if [ -f "${file}" ]; then
@@ -59,7 +59,6 @@ jobs:
           update_formula() {
             file="$1"
             sed -i "s/version \".*\"/version \"${VERSION}\"/" "${file}"
-            sed -i "/darwin-x86_64/,/sha256/{s/sha256 \".*\"/sha256 \"${SHA_DARWIN_X86_64}\"/}" "${file}"
             sed -i "/darwin-aarch64/,/sha256/{s/sha256 \".*\"/sha256 \"${SHA_DARWIN_AARCH64}\"/}" "${file}"
             sed -i "/linux-x86_64/,/sha256/{s/sha256 \".*\"/sha256 \"${SHA_LINUX_X86_64}\"/}" "${file}"
             sed -i "/linux-aarch64/,/sha256/{s/sha256 \".*\"/sha256 \"${SHA_LINUX_AARCH64}\"/}" "${file}"
