@@ -1,7 +1,4 @@
-# Tracks the newest final (non-rc) release. Until v0.6.0 ships as a final
-# release, plain `hew` tracks the newest release candidate instead — see
-# Formula/hew.rb. Once v0.6.0 ships as a final release the two formulae
-# point at the same version again, until the next pre-release window.
+# Tracks the newest final release; use hew for release candidates too.
 class HewATStable < Formula
   desc "Statically-typed, actor-oriented programming language (stable channel)"
   homepage "https://hew.sh"
