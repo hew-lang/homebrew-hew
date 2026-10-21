@@ -6,6 +6,7 @@
 # updated too, but only for a final release (a version with no "-").
 
 name: Update Formula
+run-name: Update Hew ${{ inputs.version }}
 
 on:
   workflow_dispatch:
