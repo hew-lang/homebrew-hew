@@ -3,7 +3,7 @@
 class Hew < Formula
   desc "Statically-typed, actor-oriented programming language"
   homepage "https://hew.sh"
-  version "0.6.6"
+  version "0.7.0"
   license any_of: ["MIT", "Apache-2.0"]
 
   conflicts_with "hew@stable", because: "both install a `hew` binary"
@@ -11,16 +11,16 @@ class Hew < Formula
   on_macos do
     depends_on arch: :arm64
     url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-darwin-aarch64.tar.gz"
-    sha256 "13a3a51a07e8cc90fb92afe4308fc0f3510abb43b9e91b1ebf614b51d66fb997"
+    sha256 "8f1529cef7581f76256b9064e8b1ca9b695fb549a892c5f5e55c8770a7a137f8"
   end
 
   on_linux do
     if Hardware::CPU.intel?
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-linux-x86_64.tar.gz"
-      sha256 "4086e32aad36961e015c4adc2fd463d0ca845643098054d2b3b8a671283e779d"
+      sha256 "d9663f4861e74aea01700b28e7fffb7a0b985b6538fedbf240be9aa5b2808424"
     else
       url "https://github.com/hew-lang/hew/releases/download/v#{version}/hew-v#{version}-linux-aarch64.tar.gz"
-      sha256 "48c482503322f0ccc42d23cbb8467b24d41b7b0ad77d8c572426d391d76f1c92"
+      sha256 "b07cdb5ac1872bcde0c01b88fe7379c41520c753ac6f7a652322833593befdb6"
     end
   end
 
