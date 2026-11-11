@@ -4,9 +4,18 @@ Homebrew tap for the [Hew](https://hew.sh) programming language.
 
 ## Installation
 
+Choose one release channel.
+
+Current releases, including release candidates:
+
 ```sh
-brew tap hew-lang/hew
-brew install hew
+brew install hew-lang/hew/hew
+```
+
+Final releases only:
+
+```sh
+brew install hew-lang/hew/hew@stable
 ```
 
 Supported platforms are Linux x86_64/aarch64 and macOS on Apple silicon.
