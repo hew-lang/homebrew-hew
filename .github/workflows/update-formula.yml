@@ -2,7 +2,7 @@
 #
 # Triggered by workflow_dispatch from hew's release workflow, or manually.
 # Downloads release tarballs, computes SHA256 checksums, and updates
-# Formula/hew.rb for every tag (rc included). Formula/hew@stable.rb is
+# Formula/hew.rb for every tag (rc included). Formula/hew-stable.rb is
 # updated too, but only for a final release (a version with no "-").
 
 name: Update Formula
@@ -70,19 +70,19 @@ jobs:
           echo "Updated Formula/hew.rb:"
           head -30 Formula/hew.rb
 
-          # Formula/hew@stable.rb tracks final releases only.
+          # Formula/hew-stable.rb tracks final releases only.
           case "${VERSION}" in
-            *-*) echo "Skipping Formula/hew@stable.rb: ${VERSION} is a pre-release" ;;
+            *-*) echo "Skipping Formula/hew-stable.rb: ${VERSION} is a pre-release" ;;
             *)
-              update_formula "Formula/hew@stable.rb"
-              echo "Updated Formula/hew@stable.rb:"
-              head -30 "Formula/hew@stable.rb"
+              update_formula "Formula/hew-stable.rb"
+              echo "Updated Formula/hew-stable.rb:"
+              head -30 "Formula/hew-stable.rb"
               ;;
           esac
 
       - name: Verify all placeholders substituted
         run: |
-          for file in Formula/hew.rb "Formula/hew@stable.rb"; do
+          for file in Formula/hew.rb "Formula/hew-stable.rb"; do
             if grep -E '__SHA256_[A-Z0-9_]+__' "${file}"; then
               echo "::error ::unsubstituted SHA256 placeholder found in ${file} — refusing to commit broken formula"
               exit 1
@@ -93,6 +93,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Formula/hew.rb "Formula/hew@stable.rb"
+          git add Formula/hew.rb "Formula/hew-stable.rb"
           git diff --cached --quiet || git commit -m "Update hew to v${{ inputs.version }}"
           git push
