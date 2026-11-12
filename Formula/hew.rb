@@ -6,7 +6,7 @@ class Hew < Formula
   version "0.10.0"
   license any_of: ["MIT", "Apache-2.0"]
 
-  conflicts_with "hew@stable", because: "both install a `hew` binary"
+  conflicts_with "hew-stable", because: "both install a `hew` binary"
 
   on_macos do
     depends_on arch: :arm64
@@ -58,7 +58,7 @@ class Hew < Formula
 
       fn main() {
           println("hello from homebrew");
-          println(math.clamp(10, 0, 5));
+          println(math.clamp(10, 0, 5).expect("clamp bounds are valid"));
       }
     HEW
     ENV["HEW_STD"] = (share/"hew/std").to_s

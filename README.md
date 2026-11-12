@@ -15,8 +15,10 @@ brew install hew-lang/hew/hew
 Final releases only:
 
 ```sh
-brew install hew-lang/hew/hew@stable
+brew install hew-lang/hew/hew-stable
 ```
+
+The former `hew@stable` spelling remains an alias for `hew-stable`.
 
 Supported platforms are Linux x86_64/aarch64 and macOS on Apple silicon.
 

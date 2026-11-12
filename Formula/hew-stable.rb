@@ -1,5 +1,5 @@
 # Tracks the newest final release; use hew for release candidates too.
-class HewATStable < Formula
+class HewStable < Formula
   desc "Statically-typed, actor-oriented programming language (stable channel)"
   homepage "https://hew.sh"
   version "0.10.0"
@@ -57,7 +57,7 @@ class HewATStable < Formula
 
       fn main() {
           println("hello from homebrew");
-          println(math.clamp(10, 0, 5));
+          println(math.clamp(10, 0, 5).expect("clamp bounds are valid"));
       }
     HEW
     ENV["HEW_STD"] = (share/"hew/std").to_s
